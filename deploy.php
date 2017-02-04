@@ -47,8 +47,10 @@ server('sartorua', 'sartorua.com')
 task('deploy:copy_shared_files', function () {
     $files = get('copy_shared_files');
     foreach ($files as $file) {
-        $path = "{{deploy_path}}/shared/$file";
-        run("cp -pf $path {{release_path}}");
+        $src = "{{deploy_path}}/shared/$file";
+        $dst = "{{release_path}}/$file";
+        run("if [ -f $(echo $dst) ]; then rm -rf $dst; fi");
+        run("cp -pf $src $dst");
     }
 });
 
