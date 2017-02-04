@@ -6,24 +6,16 @@ class m170204_203340_terrorists extends Migration
 {
     public function up()
     {
-
+        $this->createTable('terrorists', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(100)->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
+            'updated_at' => $this->timestamp()
+        ]);
     }
 
     public function down()
     {
-        echo "m170204_203340_terrorists cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('terrorists');
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }
