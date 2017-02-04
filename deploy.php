@@ -26,15 +26,15 @@ set('copy_dirs', [
     'vendor',
 ]);
 
+set('copy_shared_files', [
+    'yii',
+    'web/index.php',
+    'config/db.php',
+]);
+
 set('shared_dirs', [ // Must be set writable manually
     'runtime',
     'web/assets',
-]);
-
-set('shared_files', [
-    'config/db.php',
-    'web/index.php',
-    'yii',
 ]);
 
 server('sartorua', 'sartorua.com')
@@ -43,6 +43,14 @@ server('sartorua', 'sartorua.com')
     ->stage('prod')
     ->env('deploy_path', '~/veterok.sartorua.com')
     ->env('branch', 'master');
+
+task('deploy:copy_shared_files', function () {
+    $files = get('copy_shared_files');
+    foreach ($files as $file) {
+        $path = "{{deploy_path}}/shared/$file";
+        run("cp -pf $path {{release_path}}");
+    }
+});
 
 task('deploy:migrate', function () {
     run('{{bin/php}} {{release_path}}/yii migrate up --interactive=0');
@@ -58,6 +66,7 @@ task('deploy', [
     'deploy:update_code',
     'deploy:shared',
     'deploy:copy_dirs',
+    'deploy:copy_shared_files',
     'deploy:vendors',
     'deploy:migrate',
     'cache',
@@ -73,6 +82,7 @@ task('deploy-wo-migrate', [
     'deploy:update_code',
     'deploy:shared',
     'deploy:copy_dirs',
+    'deploy:copy_shared_files',
     'deploy:vendors',
     'cache',
     'deploy:symlink',
