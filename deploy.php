@@ -33,6 +33,8 @@ set('shared_dirs', [ // Must be set writable manually
 
 set('shared_files', [
     'config/db.php',
+    'web/index.php',
+    'yii',
 ]);
 
 server('sartorua', 'sartorua.com')
