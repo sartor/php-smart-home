@@ -30,6 +30,8 @@ class Terrorist extends BaseModel
     const STATUS_INJURED = 4;
     const STATUS_UNKNOWN = 5;
 
+    public $verifyCode;
+
     public static function tableName()
     {
         return 'terrorists';
@@ -53,12 +55,14 @@ class Terrorist extends BaseModel
     public function rules()
     {
         return [
-            [['name', 'slug', 'active'], 'required'],
-            [['info', 'feedback'], 'string'],
+            [['name', 'active'], 'required'],
+            [['info', 'feedback'], 'string', 'max' => 10000],
             [['status'], 'integer'],
             [['active'], 'boolean'],
-            [['died_at', 'created_at', 'updated_at'], 'safe'],
+            ['died_at', 'date', 'format' => 'yyyy-MM-dd'],
+            [['created_at', 'updated_at'], 'safe'],
             [['name', 'slug', 'department', 'post'], 'string', 'max' => 200],
+            ['verifyCode', 'captcha'],
         ];
     }
 
@@ -85,16 +89,18 @@ class Terrorist extends BaseModel
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'slug' => 'Slug',
-            'department' => 'Department',
-            'post' => 'Post',
-            'info' => 'Info',
-            'feedback' => 'Feedback',
-            'status' => 'Status',
-            'died_at' => 'Died At',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => 'ФИО',
+            'slug' => 'URL',
+            'department' => 'Организация, отдел, орган...',
+            'post' => 'Должность, пост...',
+            'info' => 'Описани',
+            'feedback' => 'Для обратной связи',
+            'status' => 'Статус',
+            'active' => 'Показывать',
+            'died_at' => 'Ликвидирован',
+            'created_at' => 'Добавлен в базу',
+            'updated_at' => 'Последнее обновление',
+            'verifyCode' => 'Проверочный код',
         ];
     }
 

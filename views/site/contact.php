@@ -9,7 +9,6 @@ use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
 $this->title = 'Связаться с автором';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">

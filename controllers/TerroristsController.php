@@ -20,4 +20,19 @@ class TerroristsController extends Controller
 
         return $this->render('index', compact('terrorists'));
     }
+
+    public function actionAdd()
+    {
+        $model = new Terrorist();
+
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            \Yii::$app->session->setFlash('terroristAddFormSubmitted');
+
+            return $this->refresh();
+        }
+
+        return $this->render('add', [
+            'model' => $model,
+        ]);
+    }
 }
