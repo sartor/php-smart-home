@@ -6,7 +6,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -28,26 +27,33 @@ AppAsset::register($this);
     <header class="main-header">
         <?php
         NavBar::begin([
-            'brandLabel' => 'My Company',
+            'brandLabel' => Yii::$app->params['siteName'],
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar navbar-static-top',
             ],
         ]);
         echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-left'],
+            'items' => [
+                ['label' => 'На очереди', 'url' => ['/upcoming']],
+                ['label' => 'На больничке', 'url' => ['/injured']],
+            ],
+        ]);
+
+        echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'About', 'url' => ['/site/about']],
-                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Добавить', 'url' => ['/add']],
+                ['label' => 'Связь с нами', 'url' => ['/contact']],
                 Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Вход', 'url' => ['/login']]
                 ) : (
                     '<li>'
-                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::beginForm(['/logout'], 'post')
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
+                        'Выход (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout', 'style' => 'color:white;']
                     )
                     . Html::endForm()
                     . '</li>'
@@ -57,14 +63,11 @@ AppAsset::register($this);
         NavBar::end();
         ?>
     </header>
-    <!-- Full Width Column -->
     <div class="content-wrapper" style="min-height: 421px;">
         <div class="container">
             <?= $content ?>
         </div>
-        <!-- /.container -->
     </div>
-    <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="container">
             <p class="pull-left">&copy; Ветерок <?= date('Y') ?></p>

@@ -15,6 +15,7 @@ class m170204_203340_terrorists extends Migration
             'info' => $this->text(),
             'feedback' => $this->text(),
             'status' => $this->smallInteger(),
+            'active' => $this->boolean()->defaultValue('f'),
             'died_at' => $this->timestamp(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
             'updated_at' => $this->timestamp(),

@@ -13,4 +13,11 @@ class TerroristsController extends Controller
 
         return $this->render('index', compact('terrorists'));
     }
+
+    public function actionUpcoming()
+    {
+        $terrorists = Terrorist::getUpcoming();
+
+        return $this->render('index', compact('terrorists'));
+    }
 }
