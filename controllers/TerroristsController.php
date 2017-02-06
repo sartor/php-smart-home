@@ -26,6 +26,8 @@ class TerroristsController extends Controller
         $model = new Terrorist();
 
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            $model->addImage();
+
             \Yii::$app->session->setFlash('terroristAddFormSubmitted');
 
             return $this->refresh();

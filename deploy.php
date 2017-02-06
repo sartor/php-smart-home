@@ -35,6 +35,7 @@ set('copy_shared_files', [
 set('shared_dirs', [ // Must be set writable manually
     'runtime',
     'web/assets',
+    'web/images',
 ]);
 
 server('sartorua', 'sartorua.com')

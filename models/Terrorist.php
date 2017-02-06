@@ -2,9 +2,12 @@
 
 namespace app\models;
 
+use rico\yii2images\behaviors\ImageBehave;
+use rico\yii2images\models\Image;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "terrorists".
@@ -31,6 +34,7 @@ class Terrorist extends BaseModel
     const STATUS_UNKNOWN = 5;
 
     public $verifyCode;
+    public $imageUrl;
 
     public static function tableName()
     {
@@ -49,6 +53,9 @@ class Terrorist extends BaseModel
                 'class' => TimestampBehavior::class,
                 'value' => new Expression('NOW()'),
             ],
+            [
+                'class' => ImageBehave::class,
+            ]
         ];
     }
 
@@ -63,6 +70,7 @@ class Terrorist extends BaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'slug', 'department', 'post'], 'string', 'max' => 200],
             ['verifyCode', 'captcha'],
+            ['imageUrl', 'string'],
         ];
     }
 
@@ -79,7 +87,7 @@ class Terrorist extends BaseModel
         return [
             static::STATUS_ALIVE => 'Ещё не ликвидирован',
             static::STATUS_DEAD => 'Ликвидирован',
-            static::STATUS_UPCOMING => 'Уже скоро',
+            static::STATUS_UPCOMING => 'Почти готов',
             static::STATUS_INJURED => 'На больничке',
             static::STATUS_UNKNOWN => 'Неизвестно',
         ];
@@ -93,7 +101,7 @@ class Terrorist extends BaseModel
             'slug' => 'URL',
             'department' => 'Организация, отдел, орган...',
             'post' => 'Должность, пост...',
-            'info' => 'Описани',
+            'info' => 'Описание',
             'feedback' => 'Для обратной связи',
             'status' => 'Статус',
             'active' => 'Показывать',
@@ -101,6 +109,7 @@ class Terrorist extends BaseModel
             'created_at' => 'Добавлен в базу',
             'updated_at' => 'Последнее обновление',
             'verifyCode' => 'Проверочный код',
+            'imageUrl' => 'Прямая ссылка на картинку',
         ];
     }
 
@@ -117,5 +126,29 @@ class Terrorist extends BaseModel
     public function getUrl()
     {
         return '/terrorists/'.$this->slug;
+    }
+
+    public function getStatusText()
+    {
+
+        return $this->status == static::STATUS_UNKNOWN ? '' : ArrayHelper::getValue(static::getStatuses(), $this->status);
+    }
+
+    public function getImageSrc()
+    {
+        /** @var Image $image */
+        $image = $this->getImage();
+
+        if ($image) {
+            return $image->getPath('200x200');
+        }
+
+        return "http://placehold.it/200x200";
+    }
+
+    public function addImage()
+    {
+        $this->imageUrl = explode('?', $this->imageUrl)[0];
+        $this->attachImage($this->imageUrl);
     }
 }

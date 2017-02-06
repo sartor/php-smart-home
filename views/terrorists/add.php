@@ -32,6 +32,7 @@ $this->title = 'Добавить объект';
                     <?= $form->field($model, 'info')->textarea(['rows' => 6]) ?>
                     <?= $form->field($model, 'department') ?>
                     <?= $form->field($model, 'post') ?>
+                    <?= $form->field($model, 'imageUrl') ?>
 
                     <?= $form->field($model, 'verifyCode')->widget(Captcha::class, [
                         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-3">{input}</div></div>',

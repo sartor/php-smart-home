@@ -8,21 +8,29 @@
 
     <?php foreach ($terrorists as $t): /** @var $t \app\models\Terrorist */ ?>
     <li class="time-label">
-        <span class="bg-red"><?=date('d.m.Y', strtotime($t->died_at))?></span>
+        <span class="bg-blue"><?=date('d.m.Y', strtotime($t->died_at))?></span>
     </li>
     <li>
-        <i class="fa fa-envelope bg-blue"></i>
+        <i class="fa fa-ban bg-red"></i>
         <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+            <?php if (!\Yii::$app->user->isGuest): ?>
+                <span class="time"><a href="/admin/terrorists/delete/<?=$t->id?>" class="btn btn-danger btn-xs">Удалить</a></span>
+            <?php endif; ?>
 
-            <h3 class="timeline-header"><a href="<?=$t->getUrl()?>"><?=$t->name?></a></h3>
+            <h3 class="timeline-header"><a href="<?=$t->getUrl()?>"><?=$t->name?></a> <?=mb_strtolower($t->getStatusText())?></h3>
 
             <div class="timeline-body">
-                <?=$t->info?>
-            </div>
-
-            <div class="timeline-footer">
-                <a class="btn btn-primary btn-xs">...</a>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="<?=$t->getUrl()?>">
+                            <img src="<?=$t->getImageSrc()?>" alt="<?=$t->name?>" title="<?=$t->name?>" class="pull-left"/>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <?=$t->info?>
+                        <a href="<?=$t->getUrl()?>">дальше...</a>
+                    </div>
+                </div>
             </div>
         </div>
     </li>
