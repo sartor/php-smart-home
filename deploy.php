@@ -55,6 +55,10 @@ task('cache', function () {
     run('{{bin/php}} {{release_path}}/yii cache/flush-all');
 });
 
+task('deploy:vendor_clean', function () {
+    run('find {{release_path}}/vendor -type d | grep .git | xargs rm -rf');
+});
+
 task('deploy', [
     'deploy:prepare',
     'deploy:release',
@@ -65,6 +69,7 @@ task('deploy', [
     'deploy:vendors',
     'deploy:migrate',
     'cache',
+    'deploy:vendor_clean',
     'deploy:symlink',
     'cleanup',
 ])->desc('Deploy project with migrations');
@@ -80,6 +85,7 @@ task('deploy-wo-migrate', [
     'deploy:copy_shared_files',
     'deploy:vendors',
     'cache',
+    'deploy:vendor_clean',
     'deploy:symlink',
     'cleanup',
 ])->desc('Deploy project without migrations');
