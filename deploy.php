@@ -12,14 +12,6 @@
 
 require 'recipe/common.php';
 
-env('bin/composer', function () {
-    run("cd {{release_path}} && curl -sS https://getcomposer.org/installer | {{bin/php}}");
-    $composer = '{{bin/php}} {{release_path}}/composer.phar';
-    run("$composer config --global github-oauth.github.com c194c393ad1c6bfa19d7efc2ed62d993c6abacfd");
-    run("$composer global require fxp/composer-asset-plugin --prefer-dist --no-plugins");
-    return $composer;
-});
-
 set('repository', '~/veterok.sartorua.com/git');
 
 set('copy_dirs', [
