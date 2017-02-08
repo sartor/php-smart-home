@@ -1,6 +1,5 @@
 {
-    "name": "yiisoft/yii2-app-basic",
-    "type": "project",
+    "name": "Veterok",
     "require": {
         "php": ">=7.0.0",
         "yiisoft/yii2": "~2.0.11",
@@ -23,10 +22,10 @@
     "config": {
         "process-timeout": 1800
     },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
-    }
+    ]
 }

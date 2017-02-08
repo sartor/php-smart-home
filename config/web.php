@@ -58,6 +58,15 @@ $config = [
 
             ],
         ],
+        'assetManager' => [
+            'class' => 'yii\web\AssetManager',
+            'dirMode' => 0777,
+            'fileMode' => 0666,
+            'hashCallback' => function ($path) {
+                $shortPath = preg_replace('#(.*?)/vendor/(.*?)#i', '$2', $path);
+                return hash('crc32', $shortPath);
+            },
+        ],
     ],
     'modules' => [
         'yii2images' => [
@@ -69,6 +78,10 @@ $config = [
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
             'placeHolderPath' => '@webroot/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
         ],
+    ],
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
     ],
     'params' => $params,
 ];
