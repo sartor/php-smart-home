@@ -12,7 +12,7 @@
 
 require 'recipe/common.php';
 
-set('repository', '~/veterok.sartorua.com/git');
+set('repository', '~/sartorua.com/git');
 
 set('copy_dirs', [
     'vendor',
@@ -34,7 +34,7 @@ server('sartorua', 'sartorua.com')
     ->user('sartor')
     ->forwardAgent()
     ->stage('prod')
-    ->env('deploy_path', '~/veterok.sartorua.com')
+    ->env('deploy_path', '~/sartorua.com')
     ->env('branch', 'master');
 
 task('deploy:copy_shared_files', function () {

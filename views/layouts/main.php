@@ -20,7 +20,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="skin-purple layout-top-nav layout-boxed" style="height: auto;">
+<body class="skin-yellow layout-top-nav layout-boxed" style="height: auto;">
 <?php $this->beginBody() ?>
 <div class="wrapper" style="height: auto;">
 
@@ -36,16 +36,14 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => [
-                ['label' => 'На очереди', 'url' => ['/upcoming']],
-                ['label' => 'На больничке', 'url' => ['/injured']],
+                ['label' => 'Список датчиков', 'url' => ['/sensors']],
+                ['label' => 'Добавить', 'url' => ['/sensors/add']],
             ],
         ]);
 
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Добавить', 'url' => ['/add']],
-                ['label' => 'Связь с нами', 'url' => ['/contact']],
                 Yii::$app->user->isGuest ? (
                 ['label' => 'Вход', 'url' => ['/login']]
                 ) : (
@@ -70,7 +68,7 @@ AppAsset::register($this);
     </div>
     <footer class="main-footer">
         <div class="container">
-            <p class="pull-left">&copy; Ветерок <?= date('Y') ?></p>
+            <p class="pull-left">&copy; <?=Yii::$app->params['siteName']?> <?= date('Y') ?></p>
 
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>

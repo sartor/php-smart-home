@@ -38,13 +38,8 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '/' => 'terrorists/index',
-                '/upcoming' => 'terrorists/upcoming',
-                '/injured' => 'terrorists/injured',
-                '/add' => 'terrorists/add',
-                '/login' => 'site/login',
-                '/logout' => 'site/logout',
-                '/contact' => 'site/contact',
+                '/' => 'site/index',
+                '/<action:(login|logout|contact|resume)>' => 'site/<action>',
                 [
                     'pattern' => 'admin/<controller>/<action>/<id>',
                     'route' => 'admin/<controller>/<action>',
