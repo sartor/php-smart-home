@@ -19,6 +19,8 @@ use yii\helpers\ArrayHelper;
  * @property string $background
  * @property bool $active
  * @property integer $order
+ * @property integer $threshold
+ * @property string $sensor
  *
  * @property SensorData[] $data
  */
@@ -43,11 +45,11 @@ class Sensor extends BaseModel
             [['name'], 'required'],
             [['last_value'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 100],
+            [['name', 'sensor'], 'string', 'max' => 100],
             [['unit'], 'string', 'max' => 10],
             [['icon', 'background'], 'string', 'max' => 20],
             ['active', 'boolean'],
-            [['order', 'decimals'], 'integer'],
+            [['order', 'decimals', 'threshold'], 'integer'],
         ];
     }
 
@@ -139,12 +141,11 @@ class Sensor extends BaseModel
         $xyArray = ArrayHelper::map($rows, 'x', 'y');
 
         for ($t = $fromTime; $t < $toTime; $t += 60 * 1000) {
-            $v = null;
-            if (isset($xyArray[(int)$t])) {
-                $v = floatval($xyArray[(int)$t]);
+            if (!isset($xyArray[(int)$t])) {
+                continue;
             }
 
-            $data[] = [$t, $v];
+            $data[] = [$t, floatval($xyArray[(int)$t])];
         }
 
         return $data;

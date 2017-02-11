@@ -87,7 +87,7 @@ class SensorsController extends Controller
                     ['day', [1]]
                 ],
             ],
-            'threshold' => 0,
+            'threshold' => $s->threshold,
             'data' => $s->getChartData(),
         ];
 
