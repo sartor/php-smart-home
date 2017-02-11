@@ -14,6 +14,11 @@ use yii\helpers\ArrayHelper;
  * @property string $last_value
  * @property string $created_at
  * @property string $updated_at
+ * @property integer $decimals
+ * @property string $icon
+ * @property string $background
+ * @property bool $active
+ * @property integer $order
  *
  * @property SensorData[] $data
  */
@@ -24,6 +29,14 @@ class Sensor extends BaseModel
         return 'sensors';
     }
 
+    public function init()
+    {
+        parent::init();
+
+        $this->icon = 'bullseye';
+        $this->background = 'aqua';
+    }
+
     public function rules()
     {
         return [
@@ -32,19 +45,18 @@ class Sensor extends BaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['unit'], 'string', 'max' => 10],
+            [['icon', 'background'], 'string', 'max' => 20],
+            ['active', 'boolean'],
+            [['order', 'decimals'], 'integer'],
         ];
     }
 
-    public function attributeLabels()
+    public static function getActive()
     {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'unit' => 'Unit',
-            'last_value' => 'Last Value',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ];
+        return static::find()
+            ->orderBy(['order' => SORT_ASC, 'id' => SORT_ASC])
+            ->where(['active' => true])
+            ->all();
     }
 
     public function getData() : ActiveQuery

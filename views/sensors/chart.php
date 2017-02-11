@@ -32,7 +32,7 @@
                 enabled: true,
                 inputEnabled: false,
                 buttons: {$buttons},
-                selected: 2
+                selected: 3
             },
             
             navigator: {
@@ -48,7 +48,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Temperature (°C)'
+                    text: '{$s->name} {$s->unit}'
                 }
             },
             series: series

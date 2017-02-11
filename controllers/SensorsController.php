@@ -20,7 +20,7 @@ class SensorsController extends Controller
 
     public function actionIndex()
     {
-        $sensors = Sensor::findAll('1');
+        $sensors = Sensor::getActive();
 
         return $this->render('index', compact('sensors'));
     }
@@ -117,5 +117,42 @@ class SensorsController extends Controller
         }
 
         return 'Unknown error';
+    }
+
+    public function actionReceiveArray()
+    {
+        $data = \Yii::$app->request->get();
+
+        if (empty($data['sensors'])) {
+            return "sensors is empty";
+        }
+
+        if (!is_array($data['sensors'])) {
+            return "sensors is not an array";
+        }
+
+        $savedCount = 0;
+
+        foreach ($data['sensors'] as $sensorId => $value) {
+            if (!is_integer($sensorId)) {
+                return "sensorId must be integer";
+            }
+
+            if (!is_numeric($value)) {
+                return "value of sensor $sensorId must be number";
+            }
+
+            $sensor = Sensor::findOne(['id' => $sensorId]);
+
+            if (!$sensor) {
+                return "sensor $sensorId not found";
+            }
+
+            if ($sensor->updateValue($value)) {
+                $savedCount++;
+            }
+        }
+
+        return "OK. Count: $savedCount";
     }
 }

@@ -20,7 +20,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="skin-black layout-top-nav layout-boxed" style="height: auto;">
+<body class="skin-blue layout-top-nav layout-boxed" style="height: auto;">
 <?php $this->beginBody() ?>
 <div class="wrapper" style="height: auto;">
 

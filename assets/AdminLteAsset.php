@@ -13,7 +13,7 @@ class AdminLteAsset extends AssetBundle
 
     public $css = [
         'css/AdminLTE.min.css',
-        'css/skins/skin-black.min.css',
+        'css/skins/skin-blue.min.css',
     ];
 
     public $depends = [
