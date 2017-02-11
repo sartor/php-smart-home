@@ -38,7 +38,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '/' => 'site/index',
+                '/' => 'sensors/index',
                 '/<action:(login|logout|contact|resume)>' => 'site/<action>',
                 [
                     'pattern' => 'admin/<controller>/<action>/<id>',

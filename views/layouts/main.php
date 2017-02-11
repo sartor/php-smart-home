@@ -20,7 +20,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="skin-yellow layout-top-nav layout-boxed" style="height: auto;">
+<body class="skin-black layout-top-nav layout-boxed" style="height: auto;">
 <?php $this->beginBody() ?>
 <div class="wrapper" style="height: auto;">
 
@@ -36,8 +36,8 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => [
-                ['label' => 'Список датчиков', 'url' => ['/sensors']],
-                ['label' => 'Добавить', 'url' => ['/sensors/add']],
+                ['label' => 'Ключи', 'url' => ['/keys']],
+                ['label' => 'Добавить датчик', 'url' => ['/sensors/add']],
             ],
         ]);
 

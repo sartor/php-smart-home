@@ -8,6 +8,7 @@
         "yiisoft/yii2-authclient": "^2.1",
         "almasaeed2010/adminlte": "~2.0",
         "bower-asset/font-awesome": "4.*",
+        "bower-asset/highcharts": "5.*",
         "costa-rico/yii2-images": "1.0.*"
     },
     "require-dev": {

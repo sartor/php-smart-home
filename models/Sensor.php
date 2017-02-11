@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "sensors".
@@ -14,7 +15,7 @@ use yii\db\ActiveQuery;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property SensorData[] $sensorsDatas
+ * @property SensorData[] $data
  */
 class Sensor extends BaseModel
 {
@@ -46,7 +47,7 @@ class Sensor extends BaseModel
         ];
     }
 
-    public function getSensorsDatas() : ActiveQuery
+    public function getData() : ActiveQuery
     {
         return $this->hasMany(SensorData::class, ['sensor_id' => 'id']);
     }
@@ -81,5 +82,59 @@ class Sensor extends BaseModel
         $date->setTimezone(new \DateTimeZone('Europe/Kiev'));
 
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getTrendPercent() : int
+    {
+        $avg = $this->getData()
+            ->select('AVG(value)')
+            ->andWhere(['>=', 'created_at', date('Y-m-d H:i:s', strtotime('- 4 hours', strtotime($this->updated_at)))])
+            ->scalar();
+
+        $diff = $this->last_value - $avg;
+
+        if ($diff < -10) $diff = -10;
+        if ($diff > 10) $diff = 10;
+
+        return round($diff * 5 + 50);
+    }
+
+    public function getChartData($fromDate = null, $toDate = null)
+    {
+        if ($fromDate === null) {
+            $fromDate = date('Y-m-d', strtotime('- 1 month'));
+        }
+
+        if ($toDate === null) {
+            $toDate = date('Y-m-d', strtotime('+ 1 day'));
+        }
+
+        $fromTime = floor(strtotime($fromDate) / 60) * 60 * 1000;
+        $toTime = floor(strtotime($toDate) / 60) * 60 * 1000;
+
+        $rows = $this->getData()
+            ->select([
+                'x' => "EXTRACT('epoch' FROM created_at)::bigint / 60 * 60 * 1000",
+                'y' => "value"
+            ])
+            ->andWhere(['>=', 'created_at', $fromDate])
+            ->andWhere(['<', 'created_at', $toDate])
+            ->asArray()
+            ->all();
+
+        $data = [];
+
+        $xyArray = ArrayHelper::map($rows, 'x', 'y');
+
+        for ($t = $fromTime; $t < $toTime; $t += 60 * 1000) {
+            $v = null;
+            if (isset($xyArray[(int)$t])) {
+                $v = floatval($xyArray[(int)$t]);
+            }
+
+            $data[] = [$t, $v];
+        }
+
+        return $data;
     }
 }

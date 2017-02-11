@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2ec19bcc6983133f1e9c491fc3fe570",
+    "content-hash": "7877d0be0a3649e5a3aade26fdcff0e1",
     "packages": [
         {
             "name": "abeautifulsite/simpleimage",
@@ -126,6 +126,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
                 "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "bower-asset/highcharts",
+            "version": "5.0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/highcharts/highcharts-dist.git",
+                "reference": "24cf66c34f5dd79f91b5d1867a21bc6ba071ae60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/highcharts/highcharts-dist/zipball/24cf66c34f5dd79f91b5d1867a21bc6ba071ae60",
+                "reference": "24cf66c34f5dd79f91b5d1867a21bc6ba071ae60",
                 "shasum": null
             },
             "type": "library"
@@ -1698,16 +1714,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.12",
+            "version": "5.7.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "944600e244f80a5252679878553b95c63dbf978b"
+                "reference": "60ebeed87a35ea46fd7f7d8029df2d6f013ebb34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/944600e244f80a5252679878553b95c63dbf978b",
-                "reference": "944600e244f80a5252679878553b95c63dbf978b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60ebeed87a35ea46fd7f7d8029df2d6f013ebb34",
+                "reference": "60ebeed87a35ea46fd7f7d8029df2d6f013ebb34",
                 "shasum": ""
             },
             "require": {
@@ -1776,7 +1792,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-02-08T05:54:05+00:00"
+            "time": "2017-02-10T09:05:10+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
