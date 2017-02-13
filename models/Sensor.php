@@ -21,11 +21,21 @@ use yii\helpers\ArrayHelper;
  * @property integer $order
  * @property integer $threshold
  * @property string $sensor
+ * @property integer $trend_limit
+ * @property string $color
+ * @property string $negative_color
+ * @property integer $type
+ * @property string $chart
  *
  * @property SensorData[] $data
  */
 class Sensor extends BaseModel
 {
+    const TYPE_TEMP = 1;
+    const TYPE_PRESSURE = 2;
+    const TYPE_HUMIDITY = 3;
+    const TYPE_LIGHT = 4;
+
     public static function tableName()
     {
         return 'sensors';
@@ -47,9 +57,10 @@ class Sensor extends BaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'sensor'], 'string', 'max' => 100],
             [['unit'], 'string', 'max' => 10],
-            [['icon', 'background'], 'string', 'max' => 20],
+            [['icon', 'background', 'chart'], 'string', 'max' => 20],
             ['active', 'boolean'],
-            [['order', 'decimals', 'threshold'], 'integer'],
+            [['order', 'decimals', 'threshold', 'trend_limit', 'type'], 'integer'],
+            [['color', 'negative_color'], 'string', 'max' => 10],
         ];
     }
 
@@ -100,17 +111,23 @@ class Sensor extends BaseModel
 
     public function getTrendPercent() : int
     {
+        if (empty($this->trend_limit)) {
+            return 50;
+        }
+
         $avg = $this->getData()
             ->select('AVG(value)')
-            ->andWhere(['>=', 'created_at', date('Y-m-d H:i:s', strtotime('- 4 hours', strtotime($this->updated_at)))])
+            ->andWhere(['>=', 'created_at', date('Y-m-d H:i:s', strtotime('- 6 hours', strtotime($this->updated_at)))])
             ->scalar();
 
         $diff = $this->last_value - $avg;
 
-        if ($diff < -10) $diff = -10;
-        if ($diff > 10) $diff = 10;
+        if ($diff < - $this->trend_limit) $diff = -$this->trend_limit;
+        if ($diff > $this->trend_limit) $diff = $this->trend_limit;
 
-        return round($diff * 5 + 50);
+        $diff += $this->trend_limit;
+
+        return round($diff / ($this->trend_limit * 2) * 100);
     }
 
     public function getChartData($fromDate = null, $toDate = null)
@@ -149,5 +166,30 @@ class Sensor extends BaseModel
         }
 
         return $data;
+    }
+
+    public function getChartSerie() : array
+    {
+        return [
+            'name' => $this->name,
+            'type' => $this->chart,
+            'color' => $this->color,
+            'negativeColor' => $this->negative_color,
+            'connectNulls' => true,
+            'marker' => [
+                'enabled' => false,
+            ],
+            'dataGrouping' => [
+                'approximation' => 'average',
+                'groupPixelWidth' => 7,
+                'units' =>  [
+                    ['minute', [1, 5, 30]],
+                    ['hour', [1, 3, 6, 12]],
+                    ['day', [1]]
+                ],
+            ],
+            'threshold' => $this->threshold,
+            'data' => $this->getChartData(),
+        ];
     }
 }

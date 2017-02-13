@@ -36,8 +36,8 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => [
-                //['label' => 'Ключи', 'url' => ['/keys']],
-                ['label' => 'Добавить датчик', 'url' => ['/sensors/add']],
+                ['label' => 'Температуры', 'url' => ['/sensors/all?id=1,4,5']],
+                //['label' => 'Добавить датчик', 'url' => ['/sensors/add']],
             ],
         ]);
 

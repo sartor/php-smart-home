@@ -5,8 +5,8 @@
 \app\assets\HighChartsAsset::register($this);
 
 ?>
-<h1><?=$s->name?></h1>
-<div class="charts-chart" id="highchart-<?=$s->id?>" style="width: 100%;"></div>
+<h1>Совмещённые графики</h1>
+<div class="charts-chart" id="highchart" style="width: 100%;"></div>
 
 <?php $this->registerJs(<<<JS
 
@@ -16,9 +16,9 @@
         }
     });
 
-    var chart = $('#highchart-{$s->id}');
+    var chart = $('#highchart');
     
-    $.getJSON('/sensors/data?id={$s->id}', function(series) {
+    $.getJSON('/sensors/data?id={$id}', function(series) {
         var chartConf = {
             chart: {
                 zoomType: 'x'
@@ -44,13 +44,7 @@
             },
             
             xAxis: {
-                ordinal: false,
-                gridLineWidth: 1
-            },
-            yAxis: {
-                title: {
-                    text: '{$s->name} {$s->unit}'
-                }
+                ordinal: false
             },
             series: series
         };

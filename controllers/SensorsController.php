@@ -59,37 +59,33 @@ class SensorsController extends Controller
         return $this->render('chart', compact('s', 'buttons'));
     }
 
+    public function actionAll()
+    {
+        $id = \Yii::$app->request->get('id');
+        $buttons = Json::encode($this->buttons);
+
+        return $this->render('all', compact('buttons', 'id'));
+    }
+
     public function actionData()
     {
         \Yii::$app->session->close(); // After this php can handle other requests
 
-        $id = \Yii::$app->request->get('id');
+        $ids = \Yii::$app->request->get('id');
 
-        $s = Sensor::findOne(['id' => $id]);
+        if (!is_array($ids)) {
+            $ids = array_map('trim', explode(',', $ids));
+        }
 
         $result = [];
+        foreach ($ids as $id) {
+            $s = Sensor::findOne(['id' => $id]);
+            if (!$s) {
+                continue;
+            }
 
-        $result[] = [
-            'name' => $s->name,
-            'type' => 'areaspline',
-            'color' => '#dd4b39',
-            'negativeColor' => '#00c0ef',
-            'connectNulls' => true,
-            'marker' => [
-                'enabled' => false,
-            ],
-            'dataGrouping' => [
-                'approximation' => 'average',
-                'groupPixelWidth' => 7,
-                'units' =>  [
-                    ['minute', [1, 5, 30]],
-                    ['hour', [1, 3, 6, 12]],
-                    ['day', [1]]
-                ],
-            ],
-            'threshold' => $s->threshold,
-            'data' => $s->getChartData(),
-        ];
+            $result[] = $s->getChartSerie();
+        }
 
         return $this->asJson($result);
     }
