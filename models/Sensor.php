@@ -190,6 +190,10 @@ class Sensor extends BaseModel
             ],
             'threshold' => $this->threshold,
             'data' => $this->getChartData(),
+            'tooltip' => [
+                'valueDecimals' => 1,
+                'valueSuffix' => ' '.$this->unit,
+            ],
         ];
     }
 }
