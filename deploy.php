@@ -12,7 +12,7 @@
 
 require 'recipe/common.php';
 
-set('repository', '~/sartorua.com/git');
+set('repository', 'https://github.com/sartor/php-smart-home.git');
 
 set('copy_dirs', [
     'vendor',
