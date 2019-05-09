@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb382b4f97149ce936252fdaeca923f0",
+    "content-hash": "55e6545c38349accf1cf43f09cd56ad4",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -69,6 +69,21 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bower-asset/font-awesome",
+            "version": "5.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e05a1219784935ff5beb6bfb17cdc86bc848d0bb",
+                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb"
+            },
+            "type": "bower-asset"
         },
         {
             "name": "bower-asset/highcharts",
